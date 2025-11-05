@@ -46,6 +46,5 @@
 ```
 ## 来源
 * 词典API出处
-  * https://freedictionaryapi.com/
-  * [freeDictionaryAPI](https://github.com/meetDeveloper/freeDictionaryAPI)
+  * [Free Dictionary API](https://freedictionaryapi.com/) 
 * 使用[kuromoji.js](https://github.com/takuyaa/kuromoji.js)进行日语分词
