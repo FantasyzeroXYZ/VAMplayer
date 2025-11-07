@@ -154,6 +154,21 @@ function handleFullscreenSubtitleClick(e) {
     if (e.target.classList.contains('word') || e.target.classList.contains('selectable-word') || e.target.classList.contains('japanese-sentence')) {
         const word = e.target.getAttribute('data-word') || e.target.textContent.trim();
         
+        // 获取完整句子 - 关键修复：优先使用data-sentence属性
+        let fullSentence = '';
+        if (e.target.hasAttribute('data-sentence')) {
+            // 优先使用 data-sentence 属性
+            fullSentence = e.target.getAttribute('data-sentence');
+        } else {
+            // 如果没有 data-sentence，从当前字幕获取
+            if (currentSubtitleIndex >= 0 && subtitles[currentSubtitleIndex]) {
+                fullSentence = subtitles[currentSubtitleIndex].text;
+            } else {
+                // 最后尝试从元素文本内容获取
+                fullSentence = e.target.textContent;
+            }
+        }
+        
         // 剪贴板功能
         if (clipboardEnabled) {
             copyWordToClipboard(word);
@@ -170,9 +185,17 @@ function handleFullscreenSubtitleClick(e) {
             showJapaneseWordSegmentation(sentence, word);
         }
         
+        // 重要：同时设置当前单词和当前句子
         currentWord = word;
-        currentSentence = e.target.getAttribute('data-sentence') || e.target.textContent;
+        currentSentence = fullSentence;
         updateOriginalSentence(currentSentence, word);
+        
+        console.log('全屏模式点击设置:', { 
+            word, 
+            sentence: currentSentence, 
+            hasDataSentence: e.target.hasAttribute('data-sentence'),
+            currentSubtitleIndex 
+        });
     }
 }
 
@@ -220,7 +243,7 @@ function updateFullscreenControlsVisibility() {
     fullscreenSubtitle.style.transition = 'bottom 0.3s ease';
 }
 
-// 修改进入全屏函数
+// 确保在进入全屏时更新字幕显示和绑定事件
 function enterFullscreen() {
     if (currentMediaType !== 'video') {
         showNotification('全屏模式仅支持视频播放');
@@ -243,7 +266,7 @@ function enterFullscreen() {
             fullscreenSubtitle.style.display = 'flex';
             fullscreenVideoPlayer.controls = false;
             isFullscreen = true;
-            hasEnteredFullscreenBefore = true; // 标记已进入过全屏
+            hasEnteredFullscreenBefore = true;
 
             if (wasPlaying) {
                 fullscreenVideoPlayer.play().catch(()=>{});
@@ -251,13 +274,68 @@ function enterFullscreen() {
 
             updateCurrentSubtitle();
             updateFullscreenProgressDisplay();
-            showFullscreenControls(); // 显示控制条
+            showFullscreenControls();
+            
+            // 重要：更新全屏字幕显示并绑定点击事件
+            updateFullscreenSubtitle();
+            bindFullscreenSubtitleClickEvents();
+            
         }).catch(err => {
             console.error(`全屏请求错误: ${err.message}`);
             videoPlayer.muted = false;
             fullscreenVideoPlayer.muted = true;
         });
     }
+}
+
+// 绑定全屏字幕点击事件
+function bindFullscreenSubtitleClickEvents() {
+    const fullscreenSubtitle = document.getElementById('fullscreenSubtitle');
+    if (!fullscreenSubtitle) return;
+
+    // 移除现有的事件监听器，避免重复绑定
+    fullscreenSubtitle.removeEventListener('click', handleFullscreenSubtitleClick);
+    fullscreenSubtitle.addEventListener('click', handleFullscreenSubtitleClick);
+}
+
+// 更新全屏字幕显示函数
+function updateFullscreenSubtitle() {
+    if (!isFullscreen || currentSubtitleIndex < 0 || !subtitles[currentSubtitleIndex]) {
+        return;
+    }
+
+    const subtitle = subtitles[currentSubtitleIndex];
+    const fullscreenSubtitle = document.getElementById('fullscreenSubtitle');
+    
+    if (!fullscreenSubtitle) return;
+
+    // 移除状态消息
+    const statusMessage = fullscreenSubtitle.querySelector('.status-message');
+    if (statusMessage) {
+        statusMessage.remove();
+    }
+
+    let subtitleHTML = '';
+    
+    if (currentLanguageMode === 'english') {
+        // 英文模式：单词可点击，并为每个单词添加完整句子的data-sentence属性
+        const words = subtitle.text.split(/(\s+)/);
+        subtitleHTML = words.map(word => {
+            const trimmedWord = word.trim();
+            if (trimmedWord && /^[a-zA-Z]+$/.test(trimmedWord)) {
+                return `<span class="word selectable-word" data-word="${trimmedWord}" data-sentence="${escapeHtml(subtitle.text)}">${word}</span>`;
+            }
+            return word;
+        }).join('');
+    } else {
+        // 日文模式：整个句子可点击
+        subtitleHTML = `<span class="japanese-sentence selectable-word" data-sentence="${escapeHtml(subtitle.text)}">${subtitle.text}</span>`;
+    }
+
+    fullscreenSubtitle.innerHTML = subtitleHTML;
+    
+    // 重新绑定点击事件
+    bindFullscreenSubtitleClickEvents();
 }
 
 // 修改退出全屏函数
@@ -387,3 +465,9 @@ function closeSubtitleListPanelFunc() {
         }
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // 绑定全屏字幕点击事件
+    bindFullscreenSubtitleClickEvents();
+});
