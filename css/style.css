@@ -16,19 +16,14 @@ body {
     overflow-x: hidden;
 }
 
-.container {
-    max-width: 800px;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    margin-top: 15px;
-}
-
+/* 标题和副标题显示在渐变背景上，不在黑框内 */
 header {
     text-align: center;
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 800px;
+    background: transparent;
+    padding: 0;
 }
 
 h1 {
@@ -44,39 +39,193 @@ h1 {
     font-size: 1rem;
 }
 
-.file-section {
+.container {
+    max-width: 800px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Anki部分样式 */
+.anki-section {
     margin-bottom: 20px;
 }
 
-.file-controls {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 15px;
+.anki-container {
+    background: rgba(30, 30, 40, 0.9);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.file-btn {
-    background: rgba(52, 152, 219, 0.7);
+/* 移动端Anki状态和按钮在同一行 */
+.anki-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.anki-status {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 200px;
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.status-connected {
+    background-color: #2ecc71;
+}
+
+.status-disconnected {
+    background-color: #e74c3c;
+}
+
+.anki-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.anki-btn {
+    background: rgba(155, 89, 182, 0.7);
     color: white;
     border: none;
-    padding: 12px 10px;
-    border-radius: 8px;
+    padding: 10px 12px;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s;
     font-size: 0.9rem;
-    text-align: center;
-    flex: 1;
-    min-width: 0;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+}
+
+.anki-btn:hover, .anki-btn:active {
+    background: rgba(155, 89, 182, 1);
+}
+
+/* 顶部按钮布局 - 移动端优化 */
+.top-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
     align-items: center;
     justify-content: center;
 }
 
-.file-btn:hover, .file-btn:active {
+.media-mode-btn {
+    background: rgba(52, 152, 219, 0.7);
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    flex: 1;
+    max-width: 120px;
+}
+
+.media-mode-btn:hover, .media-mode-btn:active {
     background: rgba(52, 152, 219, 1);
 }
 
+.language-mode-btn {
+    background: rgba(155, 89, 182, 0.7);
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    flex: 1;
+    max-width: 120px;
+}
+
+.language-mode-btn:hover, .language-mode-btn:active {
+    background: rgba(155, 89, 182, 1);
+}
+
+.import-controls {
+    display: flex;
+    gap: 8px;
+    flex: 2;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.import-btn {
+    background: rgba(52, 152, 219, 0.7);
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    flex: 1;
+}
+
+.import-btn:hover, .import-btn:active {
+    background: rgba(52, 152, 219, 1);
+}
+
+/* 自动配置区域 */
+.auto-config-section {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+}
+
+.auto-config-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.auto-config-label {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #ddd;
+}
+
+.auto-config-select {
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 0.9rem;
+}
+
+/* 播放器区域 */
 .player-section {
     margin-bottom: 25px;
 }
@@ -91,7 +240,7 @@ h1 {
 
 .video-player {
     width: 100%;
-    height: 300px;
+    height: 400px;
     background: #000;
     border-radius: 8px;
     overflow: hidden;
@@ -234,59 +383,7 @@ h1 {
     transform: scale(1.1);
 }
 
-.video-subtitles {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    color: white;
-    font-size: 1.2rem;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-    padding: 0 15px;
-    z-index: 10;
-    cursor: text;
-    user-select: text;
-    pointer-events: none;
-}
-
-.video-subtitles span {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 5px 10px;
-    border-radius: 5px;
-    display: inline-block;
-    max-width: 90%;
-    cursor: text;
-    user-select: text;
-    pointer-events: auto;
-}
-
-.video-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 15px;
-    flex-wrap: wrap;
-}
-
-.control-btn {
-    background: rgba(52, 152, 219, 0.7);
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.control-btn:hover, .control-btn:active {
-    background: rgba(52, 152, 219, 1);
-}
-
+/* 音频信息 */
 .audio-info {
     display: flex;
     align-items: center;
@@ -321,6 +418,7 @@ h1 {
     font-size: 0.9rem;
 }
 
+/* 字幕区域 */
 .subtitle-section {
     margin-bottom: 25px;
 }
@@ -345,18 +443,13 @@ h1 {
     transition: all 0.3s;
 }
 
-.highlight {
-    background-color: rgba(52, 152, 219, 0.3);
-    padding: 2px 4px;
-    border-radius: 3px;
-}
-
 .subtitle-controls {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
+    flex-wrap: wrap;
 }
 
 .subtitle-btn {
@@ -385,150 +478,44 @@ h1 {
     line-height: 1.4;
 }
 
-footer {
-    margin-top: 25px;
-    text-align: center;
-    color: #ddd;
-    font-size: 0.8rem;
-    padding: 0 10px;
-    width: 100%;
-}
-
-.hidden {
-    display: none;
-}
-
-.word {
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.word:hover, .word:active {
-    background-color: rgba(52, 152, 219, 0.2);
-}
-
-.loading {
-    text-align: center;
-    color: #3498db;
-    font-style: italic;
-}
-
-.error {
-    color: #e74c3c;
-    text-align: center;
-}
-
-/* Anki部分样式 */
-.anki-section {
-    margin-bottom: 20px;
-}
-
-.anki-container {
-    background: rgba(30, 30, 40, 0.9);
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.anki-status-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.anki-status {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    min-width: 200px;
-}
-
-.status-indicator {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.status-connected {
-    background-color: #2ecc71;
-}
-
-.status-disconnected {
-    background-color: #e74c3c;
-}
-
-.anki-controls {
-    display: flex;
-    gap: 8px;
-}
-
-.anki-btn {
-    background: rgba(155, 89, 182, 0.7);
-    color: white;
-    border: none;
-    padding: 10px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 0.9rem;
+/* 视频控制按钮 */
+.video-controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 0;
+    gap: 8px;
+    margin-top: 15px;
+    flex-wrap: wrap;
 }
 
-.anki-btn:hover, .anki-btn:active {
-    background: rgba(155, 89, 182, 1);
-}
-
-.add-to-anki-btn {
-    background: rgba(231, 76, 60, 0.7);
+.control-btn {
+    background: rgba(52, 152, 219, 0.7);
     color: white;
     border: none;
-    padding: 12px 20px;
+    padding: 6px 10px;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s;
-    font-size: 1rem;
-    margin-top: 15px;
-    width: 100%;
-}
-
-.add-to-anki-btn:hover, .add-to-anki-btn:active {
-    background: rgba(231, 76, 60, 1);
-}
-
-/* 修复：配置设置始终可见 */
-.config-section {
-    margin-top: 15px;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-}
-
-.config-row {
     display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    min-width: 36px;
+    min-height: 36px;
 }
 
-.config-label {
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-    color: #ddd;
+.control-btn:hover, .control-btn:active {
+    background: rgba(52, 152, 219, 1);
 }
 
-.config-input {
-    padding: 8px 10px;
-    border: none;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    font-size: 0.9rem;
+/* 剪贴板按钮激活状态 */
+.control-btn.active {
+    background: rgba(46, 204, 113, 0.8);
+    box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.5);
+}
+
+.control-btn.active:hover {
+    background: rgba(46, 204, 113, 1);
 }
 
 /* 时间跳转栏 */
@@ -538,6 +525,7 @@ footer {
     margin-top: 10px;
     width: 100%;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .time-input {
@@ -549,6 +537,7 @@ footer {
     color: white;
     font-size: 0.9rem;
     max-width: 120px;
+    min-width: 80px;
 }
 
 .time-jump-btn {
@@ -565,37 +554,143 @@ footer {
     justify-content: center;
 }
 
-/* 修复：底部弹出面板 - 移除大框滚动 */
+/* 视频字幕 - 彻底修复单词黑框问题 */
+.video-subtitles {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    font-size: 1rem;
+    text-shadow: 
+        1px 1px 3px rgba(0, 0, 0, 0.8),
+        -1px -1px 3px rgba(0, 0, 0, 0.8),
+        1px -1px 3px rgba(0, 0, 0, 0.8),
+        -1px 1px 3px rgba(0, 0, 0, 0.8);
+    padding: 0 15px;
+    z-index: 10;
+    cursor: text;
+    user-select: text;
+    pointer-events: none;
+}
+
+.video-subtitles span {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    max-width: 90%;
+    cursor: text;
+    user-select: text;
+    pointer-events: auto;
+}
+
+/* 彻底移除视频字幕中的单词单独背景 */
+.video-subtitles .word-span,
+.video-subtitles .word,
+.video-subtitles .selectable-word {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    display: inline !important;
+    box-shadow: none !important;
+    border: none !important;
+    text-shadow: inherit !important;
+}
+
+.video-subtitles .word-span:hover,
+.video-subtitles .word:hover,
+.video-subtitles .selectable-word:hover {
+    background: rgba(52, 152, 219, 0.3) !important;
+}
+
+/* 音频字幕 */
+.audio-subtitles {
+    margin-top: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    display: none;
+}
+
+.audio-subtitles.active {
+    display: block;
+}
+
+.audio-subtitle-item {
+    padding: 8px 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    line-height: 1.4;
+    word-spacing: normal;
+    letter-spacing: normal;
+    white-space: normal;
+    text-align: left;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.audio-subtitle-item:hover, .audio-subtitle-item:active {
+    background: rgba(52, 152, 219, 0.2);
+}
+
+.audio-subtitle-item.active {
+    background: rgba(52, 152, 219, 0.4);
+}
+
+/* 底部面板样式 */
 .dictionary-panel {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(30, 30, 40, 0.95);
+    background: rgba(30, 30, 40, 0.98);
     border-radius: 15px 15px 0 0;
-    padding: 20px;
+    padding: 15px;
     box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
     transform: translateY(100%);
     transition: transform 0.3s ease-out;
     z-index: 1000;
     max-height: 80vh;
+    overflow-y: auto;
 }
 
 .dictionary-panel.active {
     transform: translateY(0);
 }
 
+/* 词典标题栏固定在顶部 - 缩小高度并消除缝隙 */
 .panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    padding-bottom: 10px;
+    padding: 8px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: -15px;
+    background: rgba(30, 30, 40, 0.98);
+    z-index: 10;
+    margin-top: -15px;
+    padding-top: 15px;
+    min-height: auto;
 }
 
 .panel-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: bold;
 }
 
@@ -603,9 +698,14 @@ footer {
     background: none;
     border: none;
     color: #e74c3c;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     cursor: pointer;
     padding: 5px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .panel-overlay {
@@ -626,109 +726,77 @@ footer {
     visibility: visible;
 }
 
-/* 自动检测的牌组和字段选择 */
-.auto-config-section {
-    margin-top: 15px;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-}
-
-.auto-config-row {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
-
-.auto-config-label {
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-    color: #ddd;
-}
-
-.auto-config-select {
-    padding: 8px 10px;
-    border: none;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    font-size: 0.9rem;
-}
-
-/* 修复：词典面板中的搜索框 */
-.panel-search {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.panel-search-input {
-    flex: 1;
-    padding: 12px 15px;
-    border: none;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-size: 1rem;
-}
-
-.panel-search-btn {
-    background: rgba(46, 204, 113, 0.7);
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.panel-search-btn:hover, .panel-search-btn:active {
-    background: rgba(46, 204, 113, 1);
-}
-
-/* 修复：添加Anki按钮与搜索按钮并排 - 使用图标 */
+/* 搜索和Anki按钮 - 修复按钮超出范围 */
 .panel-search-anki-container {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     margin-bottom: 15px;
 }
 
 .panel-search-container {
     display: flex;
+    gap: 6px;
+    width: 100%;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
+.panel-search-input {
     flex: 1;
-    gap: 10px;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    min-height: 40px;
+    min-width: 0;
+}
+
+/* 统一按钮大小并确保不超出范围 */
+.panel-search-btn,
+.append-word-btn,
+.panel-anki-btn {
+    background: rgba(46, 204, 113, 0.7);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    min-width: 40px;
+    width: 40px;
+    flex-shrink: 0;
+}
+
+.panel-search-btn:hover, .panel-search-btn:active {
+    background: rgba(46, 204, 113, 1);
+}
+
+.append-word-btn {
+    background: rgba(241, 196, 15, 0.7);
+}
+
+.append-word-btn:hover, .append-word-btn:active {
+    background: rgba(241, 196, 15, 1);
 }
 
 .panel-anki-btn {
     background: rgba(231, 76, 60, 0.7);
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    width: 50px;
 }
 
 .panel-anki-btn:hover, .panel-anki-btn:active {
     background: rgba(231, 76, 60, 1);
 }
 
-.panel-anki-btn svg {
-    width: 24px;
-    height: 24px;
-}
-
-/* 原句显示区域 */
+/* 原句显示 - 修复换行问题 */
 .original-sentence {
     margin-bottom: 15px;
     padding: 12px;
@@ -736,18 +804,76 @@ footer {
     border-radius: 5px;
     line-height: 1.5;
     font-size: 1rem;
+    word-spacing: normal;
+    letter-spacing: normal;
+    white-space: normal;
+    text-align: left;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .sentence-word {
     cursor: pointer;
     transition: background-color 0.2s;
+    padding: 2px 4px;
+    border-radius: 3px;
+    margin: 0 1px;
+    display: inline;
+    word-break: keep-all;
 }
 
 .sentence-word:hover, .sentence-word:active {
     background-color: rgba(52, 152, 219, 0.2);
 }
 
-/* 修复：词典结果样式 - 固定高度并只允许释义栏滚动 */
+.sentence-word.highlight {
+    background-color: rgba(255, 215, 0, 0.3);
+}
+
+/* 标签页样式 */
+.dictionary-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 15px;
+    overflow-x: auto;
+}
+
+.tab-button {
+    background: transparent;
+    color: #bbb;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-bottom: 2px solid transparent;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    min-height: 40px;
+}
+
+.tab-button.active {
+    color: #3498db;
+    border-bottom: 2px solid #3498db;
+}
+
+.tab-button:hover {
+    color: #3498db;
+}
+
+.tab-content {
+    position: relative;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* 词典结果样式 */
 .dictionary-result {
     margin-top: 15px;
     padding: 15px;
@@ -802,46 +928,7 @@ footer {
     margin-bottom: 8px;
 }
 
-/* 标签页样式 */
-.dictionary-tabs {
-    display: flex;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 15px;
-}
-
-.tab-button {
-    background: transparent;
-    color: #bbb;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: all 0.3s;
-    border-bottom: 2px solid transparent;
-    font-size: 0.95rem;
-}
-
-.tab-button.active {
-    color: #3498db;
-    border-bottom: 2px solid #3498db;
-}
-
-.tab-button:hover {
-    color: #3498db;
-}
-
-.tab-content {
-    position: relative;
-}
-
-.tab-pane {
-    display: none;
-}
-
-.tab-pane.active {
-    display: block;
-}
-
-/* 修复：自定义释义框 */
+/* 自定义释义 */
 .custom-definition {
     margin-top: 15px;
 }
@@ -900,7 +987,436 @@ footer {
     background: rgba(52, 152, 219, 0.4);
 }
 
-/* GitHub链接样式 */
+/* ==================== 全屏相关样式 ==================== */
+
+/* 全屏模式 */
+.fullscreen-mode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background: #000;
+    padding: 0;
+    overflow: hidden;
+}
+
+.fullscreen-mode .container,
+.fullscreen-mode header,
+.fullscreen-mode .anki-section,
+.fullscreen-mode .subtitle-section,
+.fullscreen-mode .player-controls {
+    display: none;
+}
+
+.fullscreen-video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    cursor: pointer;
+    display: none;
+}
+
+.fullscreen-mode .fullscreen-video-container {
+    display: flex;
+}
+
+.fullscreen-video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 全屏字幕样式 */
+.fullscreen-subtitle {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 1.5rem;
+    z-index: 100;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-shadow: 
+        1px 1px 3px rgba(0, 0, 0, 0.8),
+        -1px -1px 3px rgba(0, 0, 0, 0.8),
+        1px -1px 3px rgba(0, 0, 0, 0.8),
+        -1px 1px 3px rgba(0, 0, 0, 0.8);
+    transition: bottom 0.3s ease;
+    display: none;
+}
+
+.fullscreen-mode .fullscreen-subtitle {
+    display: flex;
+}
+
+/* 全屏字幕单词样式 */
+.fullscreen-subtitle .word-span {
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin: 0 2px;
+    background: rgba(67, 97, 238, 0.2);
+    display: inline;
+    word-break: keep-all;
+    vertical-align: bottom;
+    line-height: 1.4;
+}
+
+.fullscreen-subtitle .word-span:hover {
+    background: rgba(67, 97, 238, 0.5);
+}
+
+/* 全屏退出按钮 */
+.exit-fullscreen-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 101;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.fullscreen-mode .exit-fullscreen-btn {
+    display: flex;
+}
+
+.exit-fullscreen-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* 全屏控制条 */
+.fullscreen-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.fullscreen-mode .fullscreen-controls {
+    display: flex;
+}
+
+.fullscreen-progress {
+    flex: 1;
+    margin: 0 15px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+}
+
+.fullscreen-progress-bar {
+    position: absolute;
+    height: 100%;
+    background: #4361ee;
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.1s;
+}
+
+.fullscreen-progress-thumb {
+    position: absolute;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    z-index: 102;
+    transition: all 0.2s;
+    left: 0%;
+}
+
+.fullscreen-time {
+    color: white;
+    font-size: 14px;
+    min-width: 100px;
+    text-align: center;
+}
+
+.fullscreen-control-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 全屏字幕面板 */
+.fullscreen-subtitles-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 800px;
+    height: 70%;
+    background: rgba(22, 33, 62, 0.95);
+    border-radius: 12px;
+    z-index: 1001;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.fullscreen-subtitles-panel.active {
+    display: flex;
+}
+
+.fullscreen-subtitles-header {
+    padding: 20px;
+    background: #0f3460;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fullscreen-subtitles-title {
+    font-size: 1.5rem;
+    color: #4cc9f0;
+}
+
+.fullscreen-subtitles-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.fullscreen-subtitle-item {
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fullscreen-subtitle-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.fullscreen-subtitle-item.current {
+    background: rgba(67, 97, 238, 0.3);
+    border-left: 3px solid #4361ee;
+}
+
+.fullscreen-subtitles-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: none;
+}
+
+.fullscreen-subtitles-overlay.active {
+    display: block;
+}
+
+/* 词典面板样式 */
+.dictionary-panel-fullscreen {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    background: #16213e;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    transition: right 0.4s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.dictionary-panel-fullscreen.active {
+    right: 0;
+}
+
+.dictionary-header {
+    padding: 20px;
+    background: #0f3460;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dictionary-title {
+    font-size: 1.5rem;
+    color: #4cc9f0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dictionary-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.search-box {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#wordInput {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 6px 0 0 6px;
+    background: #1a1a2e;
+    color: white;
+    font-size: 16px;
+    min-height: 44px;
+}
+
+#searchBtn {
+    background: #4361ee;
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+    min-height: 44px;
+    min-width: 80px;
+}
+
+/* 词典面板遮罩 */
+.dictionary-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+.dictionary-overlay.active {
+    display: block;
+}
+
+/* 通知 */
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1002;
+    display: none;
+}
+
+/* 通用样式 */
+.hidden {
+    display: none;
+}
+
+.word {
+    cursor: pointer;
+    transition: background-color 0.2s;
+    padding: 2px 4px;
+    border-radius: 3px;
+    margin: 0 1px;
+    display: inline;
+    word-break: keep-all;
+}
+
+.word:hover, .word:active {
+    background-color: rgba(52, 152, 219, 0.2);
+}
+
+.word.highlight {
+    background-color: rgba(255, 215, 0, 0.3);
+}
+
+.loading {
+    text-align: center;
+    color: #3498db;
+    font-style: italic;
+}
+
+.error {
+    color: #e74c3c;
+    text-align: center;
+}
+
+.status-message {
+    text-align: center;
+    padding: 15px;
+    color: #a5b1c2;
+    font-style: italic;
+}
+
+/* GitHub链接样式 - 移动到黑框外 */
 .github-link {
     margin-top: 15px;
     text-align: center;
@@ -924,631 +1440,18 @@ footer {
     background: rgba(255, 255, 255, 0.2);
 }
 
-.github-link svg {
-    width: 24px;
-    height: 24px;
-}
-
-/* 图标按钮样式 */
-.icon-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    background: rgba(52, 152, 219, 0.7);
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 0.9rem;
-}
-
-.icon-btn:hover, .icon-btn:active {
-    background: rgba(52, 152, 219, 1);
-}
-
-.icon-btn svg {
-    width: 16px;
-    height: 16px;
-}
-
-/* 媒体类型选择器 */
-.media-type-selector {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    justify-content: center;
-}
-
-.media-type-btn {
-    background: rgba(52, 152, 219, 0.3);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 0.9rem;
-}
-
-.media-type-btn.active {
-    background: rgba(52, 152, 219, 0.9);
-}
-
-/* 语言模式选择器 */
-.language-selector {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    justify-content: center;
-}
-
-.language-btn {
-    background: rgba(155, 89, 182, 0.3);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 0.9rem;
-}
-
-.language-btn.active {
-    background: rgba(155, 89, 182, 0.9);
-}
-
-/* 全屏样式 */
-.video-player:-webkit-full-screen {
+footer {
+    margin-top: 25px;
+    text-align: center;
+    color: #ddd;
+    font-size: 0.8rem;
+    padding: 0 10px;
     width: 100%;
-    height: 100%;
 }
 
-.video-player:-moz-full-screen {
-    width: 100%;
-    height: 100%;
-}
+/* ==================== 响应式设计修复 ==================== */
 
-.video-player:-ms-fullscreen {
-    width: 100%;
-    height: 100%;
-}
-
-.video-player:fullscreen {
-    width: 100%;
-    height: 100%;
-}
-
-.video-player:-webkit-full-screen .video-subtitles {
-    font-size: 1.5rem;
-    bottom: 50px;
-}
-
-.video-player:-moz-full-screen .video-subtitles {
-    font-size: 1.5rem;
-    bottom: 50px;
-}
-
-.video-player:-ms-fullscreen .video-subtitles {
-    font-size: 1.5rem;
-    bottom: 50px;
-}
-
-.video-player:fullscreen .video-subtitles {
-    font-size: 1.5rem;
-    bottom: 50px;
-}
-
-/* 音频滚动字幕样式 */
-.audio-subtitles {
-    margin-top: 15px;
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
-    display: none;
-}
-
-.audio-subtitles.active {
-    display: block;
-}
-
-.audio-subtitle-item {
-    padding: 8px 10px;
-    margin-bottom: 5px;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-    cursor: pointer;
-}
-
-.audio-subtitle-item:hover, .audio-subtitle-item:active {
-    background: rgba(52, 152, 219, 0.2);
-}
-
-.audio-subtitle-item.active {
-    background: rgba(52, 152, 219, 0.4);
-}
-
-/* 追加词汇按钮样式 */
-.append-word-btn {
-    background: rgba(241, 196, 15, 0.7);
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    width: 50px;
-}
-
-.append-word-btn:hover, .append-word-btn:active {
-    background: rgba(241, 196, 15, 1);
-}
-
-/* 顶部按钮布局 */
-.top-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 15px;
-    align-items: center;
-}
-
-.media-mode-btn {
-    background: rgba(52, 152, 219, 0.7);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 80px;
-}
-
-.media-mode-btn:hover, .media-mode-btn:active {
-    background: rgba(52, 152, 219, 1);
-}
-
-.language-mode-btn {
-    background: rgba(155, 89, 182, 0.7);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 80px;
-}
-
-.language-mode-btn:hover, .language-mode-btn:active {
-    background: rgba(155, 89, 182, 1);
-}
-
-.import-controls {
-    display: flex;
-    gap: 8px;
-    flex: 1;
-    justify-content: flex-end;
-}
-
-.import-btn {
-    background: rgba(52, 152, 219, 0.7);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 80px;
-}
-
-.import-btn:hover, .import-btn:active {
-    background: rgba(52, 152, 219, 1);
-}
-
-/* ===== 从JS中合并的CSS样式 ===== */
-
-/* 优化PC端字幕划取 */
-.selectable-word, .selectable-text, .sentence-word {
-    cursor: pointer;
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    padding: 2px 1px;
-    margin: 0 1px;
-    border-radius: 2px;
-    transition: background-color 0.2s;
-}
-
-.selectable-word:hover, .sentence-word:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.selectable-word.highlight, .sentence-word.highlight {
-    background-color: rgba(255, 215, 0, 0.3);
-}
-
-.video-subtitle-text {
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    cursor: text;
-    font-size: 1.2em;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-}
-
-.subtitle-content {
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    cursor: text;
-    line-height: 1.4;
-}
-
-.audio-subtitle-item {
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    cursor: text;
-    padding: 8px 12px;
-    margin: 4px 0;
-    border-radius: 4px;
-    transition: all 0.3s;
-    line-height: 1.5;
-}
-
-.audio-subtitle-item.active {
-    background-color: rgba(59, 130, 246, 0.2);
-    border-left: 3px solid #3b82f6;
-}
-
-.audio-subtitle-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* 优化字幕显示区域 */
-.subtitle-text {
-    line-height: 1.6;
-    letter-spacing: 0.5px;
-    min-height: 60px;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 8px;
-    margin: 10px 0;
-}
-
-/* 音频字幕容器，确保当前字幕可见 */
-.audio-subtitles-container {
-    max-height: 300px;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-}
-
-/* 加载状态 */
-.loading-state {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    color: #666;
-}
-
-.loading-state .fa-spinner {
-    margin-right: 8px;
-}
-
-/* 优化按钮点击效果 */
-button {
-    transition: all 0.2s ease;
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-/* 优化查词插件识别 */
-.word, .sentence-word {
-    word-break: keep-all;
-    white-space: nowrap;
-}
-
-/* 日语分词不加间隔 */
-.japanese-sentence {
-    word-spacing: 0;
-    letter-spacing: 0;
-}
-
-/* ===== 响应式设计 ===== */
-
-/* 移动端优化 */
 @media (max-width: 768px) {
-    .word, .sentence-word {
-        min-height: 28px;
-        line-height: 28px;
-        padding: 0 4px;
-    }
-    
-    .subtitle-item {
-        padding: 12px 8px;
-        font-size: 1.1em;
-    }
-    
-    .dictionary-panel {
-        padding: 16px;
-    }
-    
-    .tab-button {
-        padding: 10px 12px;
-        font-size: 0.9em;
-    }
-    
-    .panel-controls {
-        flex-wrap: wrap;
-    }
-    
-    .panel-controls button {
-        margin: 4px;
-        flex: 1;
-        min-width: 120px;
-    }
-    
-    /* 移动端触摸优化 */
-    .selectable-word, .sentence-word, .audio-subtitle-item {
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        padding: 8px 12px;
-    }
-    
-    .word {
-        min-height: 32px;
-        line-height: 32px;
-    }
-    
-    /* 移动端字幕划取优化 */
-    .selectable-word, .selectable-text, .sentence-word {
-        padding: 6px 3px;
-        font-size: 1.1em;
-        min-height: 24px;
-        display: inline-block;
-    }
-    
-    .subtitle-text {
-        font-size: 1.1em;
-        padding: 12px;
-        background: transparent !important; /* 移除黑框背景 */
-        box-shadow: none !important; /* 移除阴影 */
-    }
-    
-    .audio-subtitle-item {
-        font-size: 1.1em;
-        padding: 12px 16px;
-    }
-
-    /* 修复移动端字幕竖排问题 */
-    .subtitle-text {
-        writing-mode: horizontal-tb !important;
-        text-orientation: mixed !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        line-height: 1.4 !important;
-        display: block !important;
-        text-align: center;
-        padding: 8px 4px;
-    }
-    
-    /* 修复视频内字幕 */
-    .video-subtitles {
-        writing-mode: horizontal-tb !important;
-        text-orientation: mixed !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        font-size: 1rem;
-        padding: 0 10px;
-    }
-    
-    .video-subtitles span {
-        display: inline-block;
-        max-width: 100%;
-        white-space: normal;
-        line-height: 1.3;
-        padding: 4px 8px;
-        margin: 2px 0;
-        background: rgba(0, 0, 0, 0.7); /* 视频字幕保留半透明背景 */
-        border-radius: 4px;
-    }
-    
-    /* 修复音频滚动字幕 */
-    .audio-subtitles {
-        writing-mode: horizontal-tb !important;
-        text-orientation: mixed !important;
-    }
-    
-    .audio-subtitle-item {
-        writing-mode: horizontal-tb !important;
-        text-orientation: mixed !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        line-height: 1.4;
-        padding: 10px 8px;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.3); /* 音频字幕保留半透明背景 */
-        border-radius: 4px;
-        margin: 2px 0;
-    }
-    
-    /* 确保字幕中的单词水平排列 */
-    .word, .sentence-word, .selectable-word {
-        writing-mode: horizontal-tb !important;
-        text-orientation: mixed !important;
-        display: inline !important;
-        white-space: normal !important;
-        padding: 2px 3px !important;
-        margin: 0 1px !important;
-        min-height: auto !important;
-        line-height: 1.3 !important;
-    }
-    
-    /* 修复日语文本方向 */
-    .japanese-sentence {
-        writing-mode: horizontal-tb !important;
-        text-orientation: mixed !important;
-        word-spacing: normal !important;
-        letter-spacing: normal !important;
-    }
-    
-    /* 优化字幕显示区域布局 - 移除内部黑框 */
-    .subtitle-display {
-        min-height: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(30, 30, 40, 0.9); /* 只保留外部灰框 */
-        border-radius: 10px;
-        padding: 15px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
-}
-
-/* 移动设备横屏适配 */
-@media (min-width: 768px) {
-    .container {
-        padding: 25px;
-    }
-    
-    h1 {
-        font-size: 2.2rem;
-    }
-    
-    .file-controls {
-        flex-direction: row;
-    }
-    
-    .file-btn {
-        flex: 1;
-    }
-    
-    .word-header {
-        flex-direction: row;
-        align-items: center;
-    }
-    
-    .anki-controls {
-        flex-direction: row;
-    }
-    
-    .config-row {
-        flex-direction: row;
-        align-items: center;
-    }
-    
-    .config-label {
-        width: 120px;
-        margin-bottom: 0;
-        margin-right: 10px;
-    }
-    
-    .config-input {
-        flex: 1;
-    }
-    
-    .subtitle-controls {
-        flex-direction: row;
-    }
-    
-    .video-player {
-        height: 400px;
-    }
-    
-    .auto-config-row {
-        flex-direction: row;
-        align-items: center;
-    }
-    
-    .auto-config-label {
-        width: 120px;
-        margin-bottom: 0;
-        margin-right: 10px;
-    }
-    
-    .auto-config-select {
-        flex: 1;
-    }
-    
-    /* PC端底部面板样式 */
-    .dictionary-panel {
-        left: 50%;
-        right: auto;
-        width: 90%;
-        max-width: 600px;
-        transform: translate(-50%, 100%);
-        border-radius: 15px;
-    }
-    
-    .dictionary-panel.active {
-        transform: translate(-50%, 0);
-        bottom: 20px;
-    }
-    
-    .subtitle-list-panel {
-        left: 50%;
-        right: auto;
-        width: 90%;
-        max-width: 600px;
-        transform: translate(-50%, 100%);
-        border-radius: 15px;
-    }
-    
-    .subtitle-list-panel.active {
-        transform: translate(-50%, 0);
-        bottom: 20px;
-    }
-    
-    /* 修复：配置设置PC端始终可见 */
-    .config-section, .auto-config-section {
-        background: rgba(0, 0, 0, 0.5);
-    }
-
-    /* PC端也移除字幕的双重边框 */
-    .subtitle-text {
-        background: transparent !important;
-        box-shadow: none !important;
-        padding: 10px;
-    }
-    
-    .subtitle-display {
-        background: rgba(30, 30, 40, 0.9);
-        border-radius: 10px;
-        padding: 15px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
-}
-
-/* 小屏幕手机适配 */
-@media (max-width: 767px) {
     .container {
         padding: 15px;
     }
@@ -1557,223 +1460,180 @@ button:active {
         font-size: 1.6rem;
     }
     
-    .album-art {
-        width: 70px;
-        height: 70px;
-        margin-right: 12px;
-    }
-    
-    .track-info h2 {
-        font-size: 1.2rem;
-    }
-    
-    .subtitle-display {
-        font-size: 1rem;
-        padding: 12px;
-    }
-    
-    .subtitle-btn {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-    }
-    
-    .file-btn {
-        padding: 10px 8px;
-        font-size: 0.8rem;
-    }
-    
-    .anki-btn {
-        padding: 8px 10px;
-        font-size: 0.8rem;
-    }
-    
     .video-player {
         height: 250px;
     }
     
-    .video-subtitles {
-        font-size: 1rem;
-    }
-    
-    .time-input-container {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .time-input {
-        max-width: 100px;
-    }
-    
-    /* 修复：移动端搜索和Anki按钮布局 - 保持并排 */
-    .panel-search-anki-container {
-        flex-direction: row;
-    }
-    
-    /* 修复搜索和Anki按钮布局 */
-    .panel-search-container {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .panel-search-input {
-        flex: 1;
-        min-width: 0; /* 防止输入框溢出 */
-        font-size: 14px;
-        padding: 8px 10px;
-    }
-
-    .panel-search-btn, 
-    .append-word-btn, 
-    .panel-anki-btn {
-        flex-shrink: 0;
-        width: 40px;
-        height: 40px;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .panel-anki-btn {
-        width: 45px; /* Anki按钮稍微宽一点 */
-    }
-    
-    .panel-anki-btn {
-        width: 50px;
-    }
-    
-    /* Anki状态行在移动端的布局 */
+    /* 移动端Anki状态和按钮在同一行 */
     .anki-status-row {
-        flex-direction: row;
-        align-items: center;
+        flex-wrap: nowrap;
     }
     
     .anki-status {
         min-width: auto;
     }
     
-    .anki-controls {
-        flex: 1;
-        justify-content: flex-end;
-    }
-    
-    /* 顶部按钮布局在移动端的适配 */
+    /* 移动端顶部按钮布局 */
     .top-controls {
         flex-direction: column;
-        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .media-mode-btn,
+    .language-mode-btn {
+        max-width: 100%;
+        width: 100%;
     }
     
     .import-controls {
+        width: 100%;
         justify-content: space-between;
+    }
+    
+    .import-btn {
+        flex: 1;
+        max-width: calc(50% - 4px);
+    }
+    
+    /* 移动端视频字幕调整 */
+    .video-subtitles {
+        font-size: 0.9rem;
+    }
+    
+    /* 移动端音频字幕强制换行 */
+    .audio-subtitle-item {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+    }
+    
+    /* 移动端词典按钮统一大小并确保不超出范围 */
+    .panel-search-container {
+        gap: 4px;
+    }
+    
+    .panel-search-btn,
+    .append-word-btn,
+    .panel-anki-btn {
+        min-width: 38px !important;
+        width: 38px !important;
+        padding: 8px !important;
+        font-size: 0.8rem !important;
+        min-height: 38px !important;
+    }
+    
+    .panel-search-input {
+        min-height: 38px;
+        padding: 8px 10px;
+    }
+    
+    /* 移动端全屏字幕调整 */
+    .fullscreen-subtitle {
+        font-size: 1.3rem;
+    }
+    
+    /* 移动端词典标题栏进一步缩小 */
+    .panel-header {
+        padding: 6px 0;
+        margin-top: -15px;
+        padding-top: 15px;
+        top: -15px;
+    }
+    
+    .panel-title {
+        font-size: 1rem;
+    }
+    
+    .close-panel {
+        width: 32px;
+        height: 32px;
+        font-size: 1.2rem;
     }
 }
 
-/* 超小屏幕手机适配 */
 @media (max-width: 480px) {
-    .subtitle-text {
-        font-size: 1rem;
-        line-height: 1.3;
-        padding: 6px 3px;
+    .video-player {
+        height: 200px;
     }
     
     .video-subtitles {
-        font-size: 0.9rem;
-        bottom: 15px;
-    }
-    
-    .video-subtitles span {
-        padding: 3px 6px;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
     
     .audio-subtitle-item {
-        padding: 8px 6px;
         font-size: 0.9rem;
     }
     
-    .word, .sentence-word, .selectable-word {
-        padding: 1px 2px !important;
-        font-size: 1rem;
+    .fullscreen-subtitle {
+        font-size: 1.1rem;
     }
-
-    .subtitle-display {
-        padding: 10px;
-        min-height: 70px;
+    
+    /* 小屏幕词典按钮进一步调整 */
+    .panel-search-btn,
+    .append-word-btn,
+    .panel-anki-btn {
+        min-width: 36px !important;
+        width: 36px !important;
+        padding: 7px !important;
+        min-height: 36px !important;
     }
 }
 
 @media (max-width: 360px) {
-    .file-btn {
-        padding: 8px 6px;
-        font-size: 0.75rem;
+    .video-player {
+        height: 180px;
     }
     
-    .anki-btn {
-        padding: 8px 6px;
-        font-size: 0.75rem;
-    }
-    
-    .subtitle-btn {
-        padding: 6px 8px;
+    .video-subtitles {
         font-size: 0.8rem;
     }
     
-    .panel-search-anki-container {
-        flex-direction: column;
-    }
-    
+    /* 超小屏幕词典按钮进一步调整 */
+    .panel-search-btn,
+    .append-word-btn,
     .panel-anki-btn {
-        width: 100%;
-    }
-
-    .subtitle-display {
-        padding: 8px;
-        min-height: 60px;
-    }
-}
-
-/* 移动端触摸优化 */
-@media (hover: none) and (pointer: coarse) {
-    .selectable-word, .sentence-word, .audio-subtitle-item {
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        padding: 8px 12px;
+        min-width: 34px !important;
+        width: 34px !important;
+        padding: 6px !important;
+        min-height: 34px !important;
     }
     
-    .word {
-        min-height: 32px;
-        line-height: 32px;
+    .panel-search-input {
+        min-height: 34px;
+        padding: 6px 8px;
+        font-size: 0.9rem;
     }
 }
 
-/* 确保所有字幕容器都使用水平文本 */
+/* 横屏模式优化 - 修复Anki按钮高度问题 */
+@media (max-height: 500px) and (orientation: landscape) {
+    .audio-subtitles {
+        max-height: 120px;
+    }
+    
+    .fullscreen-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    /* 横屏时统一按钮高度 */
+    .panel-search-btn,
+    .append-word-btn,
+    .panel-anki-btn {
+        min-height: 36px !important;
+        height: 36px !important;
+    }
+    
+    .panel-search-input {
+        min-height: 36px;
+    }
+}
+
+/* 确保所有文本正确换行 */
 .subtitle-text,
 .video-subtitles,
 .audio-subtitles,
-.subtitle-content,
-.video-subtitle-text {
-    writing-mode: horizontal-tb;
-    text-orientation: mixed;
-    white-space: normal;
-    word-break: break-word;
-}
-
-/* 确保字幕中的内联元素水平排列 */
-.subtitle-text span,
-.video-subtitles span,
-.audio-subtitles span,
-.subtitle-content span,
-.video-subtitle-text span {
-    display: inline;
-    writing-mode: horizontal-tb;
-    text-orientation: mixed;
-}
-
-/* 全局移除字幕文本的内部黑框 */
-.subtitle-text {
-    background: transparent !important;
-    box-shadow: none !important;
+.fullscreen-subtitle {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }

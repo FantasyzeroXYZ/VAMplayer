@@ -11,10 +11,11 @@
 <body>
     <header>
         <h1>VAMplayer</h1>
-        <p class="subtitle">支持视频/音频播放、字幕显示与Anki卡片生成功能</p>
+        <p class="subtitle">支持视频/音频播放、字幕显示与Anki制卡</p>
     </header>
     
     <div class="container">
+        <!-- Anki配置区域 -->
         <section class="anki-section">
             <div class="anki-container">
                 <div class="anki-status-row">
@@ -50,6 +51,7 @@
                 <input type="file" id="audio-file-input" accept="audio/*" class="hidden">
                 <input type="file" id="subtitle-file-input" accept=".srt,.vtt,.txt" class="hidden">
                 
+                <!-- Anki自动配置区域 -->
                 <div class="auto-config-section hidden" id="auto-config-section">
                     <div class="auto-config-row">
                         <label class="auto-config-label" for="deck-select">牌组:</label>
@@ -97,6 +99,7 @@
             </div>
         </section>
         
+        <!-- 播放器区域 -->
         <section class="player-section">
             <div class="player-container">
                 <div class="audio-info">
@@ -109,15 +112,17 @@
                     </div>
                 </div>
                 
+                <!-- 视频播放器 -->
                 <div class="video-player" id="video-player">
                     <video id="player" controls>
-                        <!-- 视频源将通过JavaScript动态设置 -->
+                        您的浏览器不支持HTML5视频播放。
                     </video>
                     <div class="video-subtitles" id="video-subtitles">
                         <!-- 视频内字幕将动态生成 -->
                     </div>
                 </div>
                 
+                <!-- 音频播放器 -->
                 <div class="audio-player" id="audio-player">
                     <div class="audio-player-container">
                         <div class="audio-controls">
@@ -146,6 +151,7 @@
                     </div>
                 </div>
                 
+                <!-- 播放器控制按钮 -->
                 <div class="video-controls">
                     <button class="control-btn" id="prev-sentence-btn" title="上一句">
                         <i class="fas fa-step-backward"></i>
@@ -160,7 +166,13 @@
                         <i class="fas fa-list"></i>
                     </button>
                     <button class="control-btn" id="toggle-audio-subtitles-btn" title="切换音频字幕">
-                        <i class="fas fa-volume-up"></i>
+                        <i class="fas fa-comment-alt"></i>
+                    </button>
+                    <button class="control-btn" id="clipboard-btn" title="剪贴板功能">
+                        <i class="fa fa-clipboard"></i>
+                    </button>
+                    <button class="control-btn" id="fullscreen-btn" title="全屏播放">
+                        <i class="fas fa-expand"></i>
                     </button>
                     <div class="time-input-container">
                         <input type="number" class="time-input" id="time-jump-input" placeholder="时间(秒)" step="0.1" min="0">
@@ -170,6 +182,7 @@
             </div>
         </section>
         
+        <!-- 字幕显示区域 -->
         <section class="subtitle-section">
             <div class="subtitle-display" id="subtitle-display">
                 <div class="subtitle-text" id="subtitle-text">
@@ -181,23 +194,68 @@
             </div>
             <p class="hint">提示：直接点击字幕中的单词，该单词会自动查询并显示释义</p>
         </section>
+    </div>
+    
+    <!-- GitHub链接放在黑框外 -->
+    <div class="github-link">
+        <a href="https://github.com/FantasyzeroXYZ/VAMplayer" target="_blank" title="查看项目源码">
+            <i class="fab fa-github"></i>
+        </a>
+    </div>
+    
+    <!-- 全屏视频容器 -->
+    <div class="fullscreen-video-container" id="fullscreenVideoContainer" style="display: none;">
+        <video id="fullscreenVideoPlayer">
+            您的浏览器不支持HTML5视频播放。
+        </video>
+    </div>
+    
+    <!-- 全屏字幕显示 -->
+    <div class="fullscreen-subtitle" id="fullscreenSubtitle" style="display: none;">
+        <div class="status-message">全屏模式下，当前播放的字幕将显示在这里</div>
+    </div>
+    
+    <!-- 全屏控制条 -->
+    <div class="fullscreen-controls" id="fullscreenControls">
+        <button class="fullscreen-control-btn" id="prevSubtitleBtn" title="上一句">⏮</button>
+        <button class="fullscreen-control-btn" id="playPauseBtn" title="播放/暂停">⏸</button>
+        <button class="fullscreen-control-btn" id="nextSubtitleBtn" title="下一句">⏭</button>
+        <div class="fullscreen-progress" id="fullscreenProgress">
+            <div class="fullscreen-progress-bar" id="fullscreenProgressBar"></div>
+            <!-- 进度条滑块将通过JS动态添加 -->
+        </div>
+        <div class="fullscreen-time" id="fullscreenTime">00:00 / 00:00</div>
+        <button class="fullscreen-control-btn" id="fullscreenDictBtn" title="词典">📖</button>
+        <button class="fullscreen-control-btn" id="fullscreenSubtitlesBtn" title="显示全部字幕">📜</button>
+    </div>
+    
+    <!-- 全屏退出按钮 -->
+    <button class="exit-fullscreen-btn" id="exitFullscreenBtn" title="退出全屏">✕</button>
+    
+    <!-- 全屏字幕面板 -->
+    <div class="fullscreen-subtitles-panel" id="fullscreenSubtitlesPanel">
+        <div class="fullscreen-subtitles-header">
+            <h2 class="fullscreen-subtitles-title">全部字幕</h2>
+            <button class="close-btn" id="closeSubtitlesBtn">×</button>
+        </div>
         
-        <div class="github-link">
-            <a href="https://github.com/FantasyzeroXYZ/VAMplayer" target="_blank" title="查看项目源码">
-                <i class="fab fa-github"></i>
-            </a>
+        <div class="fullscreen-subtitles-content" id="fullscreenSubtitlesContent">
+            <div class="status-message">请上传SRT字幕文件</div>
         </div>
     </div>
+    
+    <!-- 全屏字幕面板遮罩 -->
+    <div class="fullscreen-subtitles-overlay" id="fullscreenSubtitlesOverlay"></div>
     
     <!-- 底部弹出面板 -->
     <div class="panel-overlay" id="panel-overlay"></div>
     <div class="dictionary-panel" id="dictionary-panel">
         <div class="panel-header">
-            <div class="panel-title" id="panel-word-title">单词查询</div>
+            <div class="panel-title" id="panel-word-title">词典查询</div>
             <button class="close-panel" id="close-panel">×</button>
         </div>
         
-        <!-- 修复：搜索和Anki按钮并排 - 使用图标 -->
+        <!-- 搜索和Anki按钮 -->
         <div class="panel-search-anki-container">
             <div class="panel-search-container">
                 <input type="text" class="panel-search-input" id="panel-search-input" placeholder="输入要查询的单词...">
@@ -217,14 +275,14 @@
             原句将显示在这里...
         </div>
         
-        <!-- 标签页导航 默认标签页active-->  
+        <!-- 标签页导航 -->
         <div class="dictionary-tabs">
             <button class="tab-button active" data-tab="dictionary-tab">词典释义</button>
             <button class="tab-button" data-tab="web-tab">网页查询</button>
             <button class="tab-button" data-tab="custom-tab">自定义释义</button>
         </div>
         
-        <!-- 标签页内容 默认标签页active-->
+        <!-- 标签页内容 -->
         <div class="tab-content">
             <div id="dictionary-tab" class="tab-pane active">
                 <div class="dictionary-result" id="panel-dictionary-result">
@@ -246,7 +304,7 @@
     
     <!-- 字幕列表面板 -->
     <div class="subtitle-list-panel" id="subtitle-list-panel">
-        <div class="panel-header">
+        <div class="panel-header" style="margin-top: 0; padding-top: 0;">
             <div class="panel-title">全部字幕</div>
             <button class="close-panel" id="close-subtitle-list-panel">×</button>
         </div>
@@ -256,12 +314,30 @@
         </ul>
     </div>
     
+    <!-- 词典面板遮罩 -->
+    <div class="dictionary-overlay" id="dictionaryOverlay"></div>
+    
+    <!-- 通知 -->
+    <div class="notification" id="notification"></div>
+
     <footer>
         <p>网页媒体播放器 - 专为语言学习设计</p>
     </footer>
 
     <!-- 引入kuromoji JS库 -->
     <script src="./kuromoji/build/kuromoji.js"></script>
-    <script src="./js/script.js"></script>
+    <script src="js/dom-elements.js"></script>
+    <script src="js/state-variables.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/media-handler.js"></script>
+    <script src="js/audio-controls.js"></script>
+    <script src="js/subtitle-handler.js"></script>
+    <script src="js/dictionary-panel.js"></script>
+    <script src="js/anki-handler.js"></script>
+    <script src="js/fullscreen-handler.js"></script>
+    <script src="js/clipboard-handler.js"></script>
+    <script src="js/mobile-optimize.js"></script>
+    <script src="js/event-listeners.js"></script>
+    <script src="js/init.js"></script>
 </body>
 </html>
