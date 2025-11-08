@@ -151,58 +151,92 @@ function initFullscreenDictionary() {
 
 // 处理全屏字幕点击
 function handleFullscreenSubtitleClick(e) {
-    if (e.target.classList.contains('word') || e.target.classList.contains('selectable-word') || e.target.classList.contains('japanese-sentence')) {
-        const word = e.target.getAttribute('data-word') || e.target.textContent.trim();
-        
-        // 获取完整句子 - 关键修复：优先使用data-sentence属性
-        let fullSentence = '';
-        if (e.target.hasAttribute('data-sentence')) {
-            // 优先使用 data-sentence 属性
-            fullSentence = e.target.getAttribute('data-sentence');
-        } else {
-            // 如果没有 data-sentence，从当前字幕获取
-            if (currentSubtitleIndex >= 0 && subtitles[currentSubtitleIndex]) {
-                fullSentence = subtitles[currentSubtitleIndex].text;
-            } else {
-                // 最后尝试从元素文本内容获取
-                fullSentence = e.target.textContent;
+    if (!e.target.classList.contains('word') && 
+        !e.target.classList.contains('selectable-word') && 
+        !e.target.classList.contains('japanese-sentence')) {
+        return;
+    }
+
+    // 获取点击的单词或句子
+    let word = e.target.getAttribute('data-word') || e.target.textContent.trim();
+    
+    // 获取完整句子，优先使用 data-sentence 属性
+    let fullSentence = e.target.getAttribute('data-sentence') || '';
+    if (!fullSentence && currentSubtitleIndex >= 0 && subtitles[currentSubtitleIndex]) {
+        fullSentence = subtitles[currentSubtitleIndex].text;
+    }
+    if (!fullSentence) {
+        fullSentence = e.target.textContent.trim();
+    }
+
+    // 剪贴板功能
+    if (clipboardEnabled) copyWordToClipboard(word);
+
+    // 打开全屏词典
+    openFullscreenDictionary();
+
+    if (currentLanguageMode === 'english') {
+        // 英语模式：搜索单词
+        searchWordInPanel(word);
+    } else {
+        // 日语模式：分词处理
+        showJapaneseWordSegmentation(fullSentence, word).then(japaneseWords => {
+            if (japaneseWords && japaneseWords.length > 0) {
+                currentSentence = fullSentence;
+                currentWordIndex = 0;
+                appendedWords = [japaneseWords[0]];
+                panelSearchInput.value = japaneseWords[0];
+
+                updateOriginalSentence(currentSentence, japaneseWords[0], currentLanguageMode, japaneseWords);
             }
-        }
-        
-        // 剪贴板功能
-        if (clipboardEnabled) {
-            copyWordToClipboard(word);
-        }
-        
-        // 打开词典
-        openFullscreenDictionary();
-        
-        // 搜索单词
-        if (currentLanguageMode === 'english') {
-            searchWordInPanel(word);
-        } else {
-            const sentence = e.target.getAttribute('data-sentence') || e.target.textContent;
-            showJapaneseWordSegmentation(sentence, word);
-        }
-        
-        // 重要：同时设置当前单词和当前句子
-        currentWord = word;
-        currentSentence = fullSentence;
-        updateOriginalSentence(currentSentence, word);
-        
-        console.log('全屏模式点击设置:', { 
-            word, 
-            sentence: currentSentence, 
-            hasDataSentence: e.target.hasAttribute('data-sentence'),
-            currentSubtitleIndex 
         });
     }
+
+    // 设置全局状态
+    currentWord = word;
+    currentSentence = fullSentence;
+    currentWordIndex = -1;
+    appendedWords = [];
+    panelSearchInput.value = word;
+
+    // 更新原句显示（英语/日语通用）
+    updateOriginalSentence(currentSentence, word);
+
+    // 强制设置当前单词索引，保持高亮逻辑一致
+    setTimeout(() => {
+        const sentenceSpans = originalSentence.querySelectorAll('.sentence-word');
+        let foundIndex = -1;
+
+        sentenceSpans.forEach((span, idx) => {
+            const spanWord = span.getAttribute('data-word');
+            const clickedWordClean = word.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const spanWordClean = spanWord.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (spanWordClean === clickedWordClean && foundIndex === -1) {
+                foundIndex = idx;
+            }
+        });
+
+        if (foundIndex !== -1) {
+            currentWordIndex = foundIndex;
+            appendedWords = [word];
+        } else {
+            currentWordIndex = 0;
+            appendedWords = [sentenceSpans[0]?.getAttribute('data-word') || word];
+        }
+
+        // 更新高亮显示
+        sentenceSpans.forEach((span, idx) => {
+            span.classList.toggle('highlight', idx === currentWordIndex);
+        });
+    }, 10);
 }
+
 
 // 打开全屏词典
 function openFullscreenDictionary() {
     // 记录播放状态
     wasPlayingBeforeDict = !fullscreenVideoPlayer.paused;
+    playerWasPlaying = wasPlayingBeforeDict; // 确保全局状态同步
     
     // 暂停播放
     if (wasPlayingBeforeDict) {
@@ -214,6 +248,7 @@ function openFullscreenDictionary() {
     panelOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
+
 
 // 全屏控制条自动隐藏（增强版）
 function showFullscreenControls() {
@@ -280,6 +315,8 @@ function enterFullscreen() {
             updateFullscreenSubtitle();
             bindFullscreenSubtitleClickEvents();
             
+            console.log('进入全屏模式，字幕事件已绑定');
+            
         }).catch(err => {
             console.error(`全屏请求错误: ${err.message}`);
             videoPlayer.muted = false;
@@ -319,14 +356,23 @@ function updateFullscreenSubtitle() {
     
     if (currentLanguageMode === 'english') {
         // 英文模式：单词可点击，并为每个单词添加完整句子的data-sentence属性
-        const words = subtitle.text.split(/(\s+)/);
-        subtitleHTML = words.map(word => {
-            const trimmedWord = word.trim();
-            if (trimmedWord && /^[a-zA-Z]+$/.test(trimmedWord)) {
-                return `<span class="word selectable-word" data-word="${trimmedWord}" data-sentence="${escapeHtml(subtitle.text)}">${word}</span>`;
-            }
-            return word;
-        }).join('');
+        // 使用与普通字幕相同的单词分割逻辑
+        const wordRegex = /[a-zA-Z]+(?:[''’][a-zA-Z]+)*/g;
+        let lastIndex = 0;
+        
+        let match;
+        while ((match = wordRegex.exec(subtitle.text)) !== null) {
+            // 添加非单词内容（标点符号等）
+            subtitleHTML += subtitle.text.substring(lastIndex, match.index);
+            
+            // 创建可点击的单词，但存储清理后的单词
+            const cleanWord = match[0].replace(/[^\w]/g, '');
+            subtitleHTML += `<span class="word selectable-word" data-word="${cleanWord}" data-sentence="${escapeHtml(subtitle.text)}">${match[0]}</span>`;
+            lastIndex = match.index + match[0].length;
+        }
+        
+        // 添加剩余内容
+        subtitleHTML += subtitle.text.substring(lastIndex);
     } else {
         // 日文模式：整个句子可点击
         subtitleHTML = `<span class="japanese-sentence selectable-word" data-sentence="${escapeHtml(subtitle.text)}">${subtitle.text}</span>`;

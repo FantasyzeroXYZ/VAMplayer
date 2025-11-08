@@ -214,51 +214,75 @@ function updateCurrentSubtitle() {
 // 处理字幕文本点击事件
 function handleSubtitleTextClick(e) {
     if (currentLanguageMode === 'english') {
+        // 英语模式逻辑保持不变
         if (e.target.classList.contains('word')) {
             const word = e.target.getAttribute('data-word');
-            const index = parseInt(e.target.getAttribute('data-index'));
-            
-            // 剪贴板功能
-            if (clipboardEnabled) {
-                copyWordToClipboard(word);
-            }
+            const subtitleIndex = parseInt(e.target.getAttribute('data-index'));
 
+            if (clipboardEnabled) copyWordToClipboard(word);
             pauseCurrentMedia();
             searchWordInPanel(word);
-            
-            if (activeTab === 'web-tab') {
-                loadWebSearch(word);
-            }
+
+            if (activeTab === 'web-tab') loadWebSearch(word);
 
             currentWord = word;
-            if (index >= 0 && index < subtitles.length) {
-                currentSentence = subtitles[index].text;
-                updateOriginalSentence(currentSentence, word);
+            if (subtitleIndex >= 0 && subtitleIndex < subtitles.length) {
+                currentSentence = subtitles[subtitleIndex].text;
+                currentWordIndex = -1;
+                appendedWords = [];
+                panelSearchInput.value = word;
+
+                updateOriginalSentence(currentSentence, word, currentLanguageMode);
+
+                setTimeout(() => {
+                    const sentenceSpans = originalSentence.querySelectorAll('.sentence-word');
+                    let foundIndex = -1;
+
+                    sentenceSpans.forEach((span, idx) => {
+                        const spanWord = span.getAttribute('data-word');
+                        const clickedWordClean = word.toLowerCase().replace(/[^a-z0-9]/g, '');
+                        const spanWordClean = spanWord.toLowerCase().replace(/[^a-z0-9]/g, '');
+                        if (spanWordClean === clickedWordClean && foundIndex === -1) foundIndex = idx;
+                    });
+
+                    if (foundIndex !== -1) {
+                        currentWordIndex = foundIndex;
+                        appendedWords = [word];
+                        sentenceSpans.forEach((span, idx) => span.classList.toggle('highlight', idx === foundIndex));
+                    } else {
+                        currentWordIndex = 0;
+                        appendedWords = [sentenceSpans[0]?.getAttribute('data-word') || word];
+                    }
+                }, 10);
             }
-            
-            if (currentHighlightedWord) {
-                currentHighlightedWord.classList.remove('highlight');
-            }
+
+            if (currentHighlightedWord) currentHighlightedWord.classList.remove('highlight');
             e.target.classList.add('highlight');
             currentHighlightedWord = e.target;
         }
     } else {
+        // 日语模式
         if (e.target.classList.contains('japanese-sentence')) {
             const text = e.target.getAttribute('data-sentence');
-            const index = parseInt(e.target.getAttribute('data-index'));
 
-            // 剪贴板功能
-            if (clipboardEnabled) {
-                copyWordToClipboard(text);
-            }
-            
+            if (clipboardEnabled) copyWordToClipboard(text);
             pauseCurrentMedia();
-            showJapaneseWordSegmentation(text);
-            
-            currentSentence = text;
+
+            showJapaneseWordSegmentation(text).then((japaneseWords) => {
+                if (japaneseWords && japaneseWords.length > 0) {
+                    currentSentence = text;
+                    currentWordIndex = 0;
+                    appendedWords = [japaneseWords[0]];
+                    panelSearchInput.value = japaneseWords[0];
+
+                    updateOriginalSentence(currentSentence, japaneseWords[0], currentLanguageMode, japaneseWords);
+                }
+            });
         }
     }
 }
+
+
 
 // 更新字幕列表
 function updateSubtitleList() {
@@ -380,7 +404,7 @@ function handleSubtitleClick(e, text, index) {
 
             currentWord = word;
             currentSentence = text;
-            updateOriginalSentence(currentSentence, word);
+            updateOriginalSentence(currentSentence, word, currentLanguageMode);
         }
     } else {
         if (e.target.classList.contains('japanese-sentence')) {
