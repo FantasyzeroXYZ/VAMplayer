@@ -259,7 +259,7 @@ function loadConfig() {
 // 页面加载时保存原始按钮 HTML
 const originalAddToAnkiHTML = addToAnkiBtn.innerHTML;
 
-// 添加Anki卡片
+// 添加Anki卡片-直接提取面板内容(innerHTML)
 addToAnkiBtn.addEventListener('click', async () => {
     if (isProcessingAnki) return;
 
@@ -277,173 +277,11 @@ addToAnkiBtn.addEventListener('click', async () => {
     let definition = '';
 
     if (activeTab === 'dictionary-tab') {
-        // 提取所有词条
-        const entries = panelDictionaryResult.querySelectorAll('.entry');
-        entries.forEach((entry, entryIndex) => {
-            definition += `<div class="entry">`;
-            
-            // 词条标题
-            definition += `<div class="entry-header">`;
-            definition += `<h3>词条 ${entryIndex + 1}</h3>`;
-            definition += `<hr class="entry-divider">`;
-            definition += `</div>`;
-            
-            // 词性
-            const partOfSpeech = entry.querySelector('.part-of-speech');
-            if (partOfSpeech) {
-                definition += `<div class="part-of-speech"><strong>词性:</strong> ${partOfSpeech.textContent.trim()}</div>`;
-            }
-            
-            // 释义
-            const definitions = entry.querySelectorAll('.definition');
-            if (definitions.length > 0) {
-                definition += `<div class="section">`;
-                definition += `<div class="section-title">释义</div>`;
-                definition += `<hr class="section-divider">`;
-                definition += `<ol class="definition-list">`;
-                definitions.forEach((def, defIndex) => {
-                    const cleanDef = def.textContent.trim().replace(/^\d+\.?\s*/, '');
-                    definition += `<li>${cleanDef}</li>`;
-                });
-                definition += `</ol>`;
-                definition += `</div>`;
-            }
-            
-            // 例句
-            const examples = entry.querySelectorAll('.example');
-            if (examples.length > 0) {
-                definition += `<div class="section">`;
-                definition += `<div class="section-title">例句</div>`;
-                definition += `<hr class="section-divider">`;
-                definition += `<ol class="example-list">`;
-                examples.forEach((example, exIndex) => {
-                    definition += `<li><em>${example.textContent.trim()}</em></li>`;
-                });
-                definition += `</ol>`;
-                definition += `</div>`;
-            }
-            
-            // 同义词
-            const synonyms = entry.querySelectorAll('.synonyms');
-            if (synonyms.length > 0) {
-                definition += `<div class="section">`;
-                definition += `<div class="section-title">同义词</div>`;
-                definition += `<hr class="section-divider">`;
-                definition += `<ul class="synonym-list">`;
-                synonyms.forEach(synonym => {
-                    const synText = synonym.textContent.trim().replace(/^同义词:\s*/, '');
-                    definition += `<li>${synText}</li>`;
-                });
-                definition += `</ul>`;
-                definition += `</div>`;
-            }
-            
-            // 反义词
-            const antonyms = entry.querySelectorAll('.antonyms');
-            if (antonyms.length > 0) {
-                definition += `<div class="section">`;
-                definition += `<div class="section-title">反义词</div>`;
-                definition += `<hr class="section-divider">`;
-                definition += `<ul class="antonym-list">`;
-                antonyms.forEach(antonym => {
-                    const antText = antonym.textContent.trim().replace(/^反义词:\s*/, '');
-                    definition += `<li>${antText}</li>`;
-                });
-                definition += `</ul>`;
-                definition += `</div>`;
-            }
-            
-            // 词形变化
-            const initialForms = entry.querySelector('.initial-forms');
-            if (initialForms) {
-                definition += `<div class="section">`;
-                definition += `<div class="section-title">词形变化</div>`;
-                definition += `<hr class="section-divider">`;
-                const formsText = initialForms.textContent.trim().replace(/^词形变化:\s*/, '');
-                definition += `<div class="forms">${formsText}</div>`;
-                definition += `</div>`;
-            }
-            
-            definition += `</div>`; // 关闭entry
-        });
-        
-        // 添加CSS样式
-        definition += `
-        <style>
-            .word-title {
-                font-size: 24px;
-                font-weight: bold;
-                text-align: center;
-                margin-bottom: 20px;
-                color: #2c3e50;
-            }
-            .entry {
-                margin-bottom: 25px;
-                padding: 15px;
-                border: 1px solid #e1e4e8;
-                border-radius: 8px;
-                background-color: #fafbfc;
-            }
-            .entry-header h3 {
-                margin: 0 0 8px 0;
-                color: #0366d6;
-                font-size: 18px;
-            }
-            .entry-divider {
-                border: none;
-                border-top: 2px solid #0366d6;
-                margin: 5px 0 15px 0;
-            }
-            .part-of-speech {
-                font-weight: bold;
-                color: #586069;
-                margin-bottom: 15px;
-                font-size: 16px;
-            }
-            .section {
-                margin-bottom: 15px;
-            }
-            .section-title {
-                font-weight: bold;
-                color: #24292e;
-                margin-bottom: 5px;
-                font-size: 16px;
-            }
-            .section-divider {
-                border: none;
-                border-top: 1px solid #d1d5da;
-                margin: 5px 0 10px 0;
-            }
-            .definition-list, .example-list {
-                margin: 10px 0;
-                padding-left: 20px;
-            }
-            .definition-list li, .example-list li {
-                margin-bottom: 8px;
-                line-height: 1.4;
-            }
-            .example-list li {
-                color: #22863a;
-                font-style: italic;
-            }
-            .synonym-list, .antonym-list {
-                margin: 10px 0;
-                padding-left: 20px;
-            }
-            .synonym-list li {
-                color: #005cc5;
-            }
-            .antonym-list li {
-                color: #d73a49;
-            }
-            .forms {
-                color: #6a737d;
-                font-family: monospace;
-                margin: 10px 0;
-            }
-        </style>
-        `;
-    }else if (activeTab === 'custom-tab') {
+        // ✅ 直接拿面板中显示的HTML，不再提取内容
+        definition = panelDictionaryResult.innerHTML.trim();
+    } else if (activeTab === 'tampermonkey-tab') {  // 油猴Tab支持
+        definition = panelTampermonkeyResult.innerHTML.trim();
+    } else if (activeTab === 'custom-tab') { // 自定义Tab支持
         definition = customDefinitionInput.value.trim();
     }
 
@@ -452,6 +290,7 @@ addToAnkiBtn.addEventListener('click', async () => {
         return;
     }
 
+    // 以下逻辑保持不变
     isProcessingAnki = true;
     addToAnkiBtn.disabled = true;
     addToAnkiBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
@@ -479,51 +318,36 @@ addToAnkiBtn.addEventListener('click', async () => {
 
 
 
-// 处理Anki卡片
+
+// 处理Anki卡片（单词对应字幕整句）
 async function processAnkiCard(word, definition) {
     console.log('audioBuffer', audioBuffer, 'audioContext', audioContext, 'currentSubtitleIndex', currentSubtitleIndex);
 
-    let cleanSentence = currentSentence;
-    
-    // 如果句子为空或只有单词，尝试从多个来源恢复完整句子
-    if (!cleanSentence || cleanSentence === word || cleanSentence.split(/\s+/).length <= 2) {
-        console.log('需要恢复完整句子，当前句子:', cleanSentence);
-        
-        // 方法1: 从当前字幕索引获取
-        if (currentSubtitleIndex >= 0 && subtitles[currentSubtitleIndex]) {
-            cleanSentence = subtitles[currentSubtitleIndex].text;
-            console.log('从字幕索引恢复句子:', cleanSentence);
-        }
-        // 方法2: 从全屏字幕元素获取
-        else if (isFullscreen) {
-            const fullscreenSubtitle = document.getElementById('fullscreenSubtitle');
-            if (fullscreenSubtitle) {
-                // 获取所有可点击元素的 data-sentence 属性
-                const sentenceElements = fullscreenSubtitle.querySelectorAll('[data-sentence]');
-                if (sentenceElements.length > 0) {
-                    cleanSentence = sentenceElements[0].getAttribute('data-sentence');
-                    console.log('从data-sentence属性恢复句子:', cleanSentence);
-                } else {
-                    // 如果没有data-sentence，直接获取文本内容
-                    cleanSentence = fullscreenSubtitle.textContent;
-                    console.log('从字幕文本恢复句子:', cleanSentence);
-                }
-            }
-        }
-        // 方法3: 从普通字幕元素获取
-        else {
-            const subtitleElement = document.querySelector('.subtitle-text');
-            if (subtitleElement) {
-                cleanSentence = subtitleElement.textContent;
-                console.log('从普通字幕恢复句子:', cleanSentence);
-            }
+    // 获取当前单词对应字幕的整句
+    let cleanSentence = '';
+
+    if (currentSubtitleIndex >= 0 && subtitles[currentSubtitleIndex]) {
+        // 直接取字幕数组里的整句
+        cleanSentence = subtitles[currentSubtitleIndex].text;
+        console.log('从字幕数组获取整句:', cleanSentence);
+    } else {
+        // fallback：从页面字幕元素获取
+        const subtitleElement = document.querySelector('.subtitle-text') || document.getElementById('fullscreenSubtitle');
+        if (subtitleElement) {
+            const sentenceEl = subtitleElement.querySelector('[data-sentence]');
+            cleanSentence = sentenceEl
+                ? sentenceEl.getAttribute('data-sentence')
+                : subtitleElement.textContent.trim();
+            console.log('从字幕元素获取整句:', cleanSentence);
         }
     }
 
+    // 清理文本（去掉 HTML 标签、空格等）
     if (cleanSentence) {
         cleanSentence = cleanSubtitleText(cleanSentence);
     }
 
+    // 构建 Anki 卡片
     const note = {
         deckName: deckSelect.value,
         modelName: modelSelect.value,
@@ -536,6 +360,7 @@ async function processAnkiCard(word, definition) {
         tags: ['media-player']
     };
 
+    // 添加音频片段
     if (audioBuffer && currentSubtitleIndex >= 0) {
         try {
             const audioBlob = await generateAudioClip(currentSubtitleIndex);
@@ -551,6 +376,7 @@ async function processAnkiCard(word, definition) {
         }
     }
 
+    // 截图视频帧
     if (imageFieldSelect.value && currentMediaType === 'video' && currentMediaFile) {
         try {
             const storedImageName = await captureVideoFrame(word);
@@ -563,6 +389,7 @@ async function processAnkiCard(word, definition) {
         }
     }
 
+    // 添加卡片到 Anki
     await addCardToAnki(note);
 }
 
