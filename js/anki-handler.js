@@ -321,7 +321,7 @@ addToAnkiBtn.addEventListener('click', async () => {
 
 // 处理Anki卡片（单词对应字幕整句）
 async function processAnkiCard(word, definition) {
-    console.log('audioBuffer', audioBuffer, 'audioContext', audioContext, 'currentSubtitleIndex', currentSubtitleIndex);
+    // console.log('audioBuffer', audioBuffer, 'audioContext', audioContext, 'currentSubtitleIndex', currentSubtitleIndex);
 
     // 获取当前单词对应字幕的整句
     let cleanSentence = '';
@@ -412,7 +412,7 @@ function generateImageFileName(word) {
 async function processAudioFile(word, audioBlob) {
     try {
         const audioFileName = generateAudioFileName(word);
-        console.log('准备存储音频文件:', audioFileName);
+        // console.log('准备存储音频文件:', audioFileName);
 
         const base64Audio = await blobToBase64(audioBlob);
 
